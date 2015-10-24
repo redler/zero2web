@@ -1,0 +1,589 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>From Zero to Website | Ken Redler</title>
+
+		<meta name="description" content="A framework for easily creating beautiful presentations using HTML">
+		<meta name="author" content="Hakim El Hattab">
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/night.css" id="theme">
+
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+
+		<!-- Code syntax highlighting -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/3.10.1/lodash.min.js"></script>
+
+		<!-- Printing and PDF exports -->
+		<script>
+
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+
+		</script>
+
+		<script>
+
+		var makeHexColor = function () {
+			return '#'+ Math.round(0xffffff * Math.random()).toString(16);
+		};
+
+		var getWordArray = function () {
+			return ['Angular',
+				'Backbone',
+				'Bootstrap',
+				'Bower',
+				'CoffeeScript',
+				'CSS',
+				'Git',
+				'Github',
+				'Grunt',
+				'Gulp',
+				'HTML',
+				'JavaScript',
+				'jQuery',
+				'JSON',
+				'LESS',
+				'Lodash',
+				'Node',
+				'React',
+				'Sass',
+				'Underscore',
+				'OMG',
+				'HelpMe',
+				'COBOL,JK',
+				'LOL',
+				'WTF',
+				'BBQ',
+				'ROFLScript'];
+		};
+
+		var getRandomWord = function () {
+			return _.shuffle(getWordArray())[0];
+		};
+
+		var popWord = function () {
+
+			var word = getRandomWord(),
+				color = makeHexColor(),
+				sizepx = ~~((Math.random()*200) + 20);
+
+
+			var measure = $('<div class="deleteme" style="font-size: ' + sizepx + 'px">' + word + '</div>').css({
+				position: 'absolute',
+				left: '-2000px'			
+			}).appendTo('body'),
+				measure_w = measure.width(),
+				measure_h = measure.height();
+
+			measure.remove();
+
+			var x = (Math.random() * ($(window).width() - (measure_w/2))).toFixed(),
+				y = (Math.random() * ($(window).height() - (measure_h/2))).toFixed();
+
+			var css = {
+				'left': x + 'px',
+				'top': y + 'px',
+				'text-align': 'center',
+				'color': color,
+				'font-size': sizepx + 'px'
+			};
+
+			$('<div class="item">' + word + '</div>').appendTo('.reveal').css(css).addClass('pulse').delay(2000).queue(function (next) {
+				$(this).remove();
+				next();
+			});
+		};
+
+
+
+		$(function () {
+
+			var loop = [];
+
+			var wordPopAnimation = function () {
+				var numloops = 1,
+					lifetime = 1500;
+
+				for (var i = 0; i < numloops; i++) {
+			    	_.delay(function () {
+			    		loop[i] = setInterval(popWord, 100);
+			    	}, lifetime/i);
+				}    	
+			};
+
+
+			Reveal.addEventListener('randompop', wordPopAnimation, false);
+
+			Reveal.addEventListener('slidechanged', function (e) {
+				if ($(e.currentSlide).data('state') !== 'randompop') {
+					console.log(loop);
+					_.each(loop, function (el) {
+						clearInterval(el);
+					});
+				}
+			});
+
+
+			var cblocks = document.querySelectorAll("pre code");
+					
+			if(cblocks.length) {
+			for(var i=0, len=cblocks.length; i<len; i++) {
+				var dom = cblocks[i];
+				var html = dom.innerHTML;
+				html = html.replace(/</g,"<").replace(/>/g,">");
+				dom.innerHTML = html;
+			}
+			}			
+			});
+
+		</script>
+
+		<style>
+
+		table.tiny tr th, table.tiny tr td {
+			font-size: 18px;
+			border-bottom: none;
+		}
+
+		table.tiny td:first-child {
+			text-align: right;
+		}
+	
+		.pulse {
+			animation: swell 0.8s ease;
+		}
+
+		@keyframes swell {
+			from {transform: scale(1); opacity: 1; }
+			10% {transform: scale(2.5) }
+			50% {opacity: 1;}
+			to {transform: scale(0.2); opacity: 0; }
+		}
+		.item {
+			position: absolute;
+			opacity: 0;
+		}
+
+		.border {
+			padding: 20px !important;
+			border: 1px solid white;
+		}
+		</style>
+
+		<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+				<section>
+					<h1>From Zero to Website</h1>
+					<h3>Understanding the Basics</h3>
+					<p>
+						<small>Ken Redler<br><span style="text-transform: uppercase; font-size: 0.7em;">CTO, cSubs</span><br>
+
+						<table class="tiny">
+						<tr><td><i class="fa fa-envelope"></i></td><td><a href="mailto:ksr@ksredler.com">ksr@ksredler.com</a></td></tr>
+						<tr><td><i class="fa fa-linkedin-square"></i></td><td><a href="https://www.linkdedin.com/in/kenredler">kenredler</a></td></tr>
+						<tr><td><i class="fa fa-twitter"></i></td><td><a href="http://twitter.com/redler">@redler</a></td></tr>
+						</table>
+
+						</small>
+					</p>
+				</section>
+
+				<section>
+					<h1>You need to already know</h1>
+					<ul><li>Nothing</li></ul>
+				</section>				
+
+				<section>
+
+					<section data-background="#000000" data-state="test">
+						<h1 style="color: white;">It’s Simple</h1>
+					</section>
+
+					<section id="popwords" data-background="#ff0000" data-state="randompop" style="position: relative;">
+					</section>		
+
+					<section>
+						<h1>HTML<br>CSS<br>JavaScript</h1>
+					</section>		
+				</section>
+
+ 				<section>
+
+ 					<section>
+					<h2>HTML</h2>
+					<img src="images/skeleton.png" style="height: 500px; border: 0;">
+					</section>
+
+
+
+ 					<section>
+					<h2>Document</h2>
+					<p>
+					<i class="fa fa-file-word-o fa-xl" style="font-size: 190px;"></i>
+					</p>
+					<ul><li>Where is it?</li>
+					<li>How do you view it?</li>
+					<li>How do you edit it?</li>
+					</ul>
+					</section>
+
+
+ 					<section>
+					<h2>Tags</h2>
+					<img src="images/redgreenblue.png" class="border">
+					</ul>
+					</section>
+
+
+ 					<section>
+ 					<h3>Behind the curtain...</h3>
+<pre><code data-trim class="html">
+
+1. Will this be <red>red?</red>
+
+2. Is it <green>green</green> <blue>or is it blue</blue>?
+
+</code></pre>
+
+<ul>
+<li>Most tags contain their content, so they have a start and an end</li>
+<li>Some tags stand alone, and have no content</li>
+</ul>
+					</section>
+
+
+
+ 					<section>
+ 					<h3>HTML Document</h3>
+ 					<p>Just a text file</p>
+
+<pre><code data-trim class="html">
+
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+
+&lt;/html&gt;
+
+</code></pre>
+
+
+
+					</section>
+
+
+ 					<section>
+ 					<h3>HTML Document</h3>
+ 					<p>Like the skeleton, a head and a body</p>
+
+<pre><code data-trim class="html">
+
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+
+	&lt;head&gt;
+
+	&lt;/head&gt;
+	
+	&lt;body&gt;
+
+	&lt;/body&gt;
+
+&lt;/html&gt;
+
+
+</code></pre>
+					</section>
+
+
+ 					<section>
+ 					<h3>Head</h3>
+ 					<p>The head contains data about the document</p>
+
+<pre><code data-trim class="html">
+
+&lt;head&gt;
+	&lt;title&gt;Bask in the magnificence of this page!&lt;/title&gt;
+&lt;/head&gt;
+
+</code></pre>
+					</section>
+
+ 					<section>
+ 					<h3>Body</h3>
+ 					<p>The body contains the content of the document</p>
+
+<pre><code data-trim class="html">
+
+&lt;body&gt;
+	&lt;h1&gt;Welcome!&lt;/h1&gt;
+	&lt;p&gt;We hope you'll stay awhile.&lt;/p&gt;
+&lt;/body&gt;
+
+</code></pre>
+					</section>
+
+ 					<section>
+ 					<h3>Images</h3>
+
+ 					<p>If you have a file like a gif or jpeg, just point to it from an <img> tag</p>
+
+<pre><code data-trim class="html">
+&lt;img src=&quot;myCoolPhoto.jpg&quot;&gt;
+</code></pre>					
+
+					<p>Even if you don't have your image, how about a placeholder?</p>
+
+<pre><code data-trim class="html">
+&lt;img src=&quot;http://placekitten.com/150/300&quot;&gt;
+</code></pre>	
+
+<pre><code data-trim class="html">
+&lt;img src=&quot;http://sheenholders.com/421x550&quot;&gt;
+</code></pre>	
+
+
+					</section>
+ 					<section>
+ 					<h3>The full document</h3>
+ 					
+<pre><code data-trim class="html">
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+	&lt;title&gt;Bask in the magnificence of this page!&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;h1&gt;Welcome!&lt;/h1&gt;
+&lt;p&gt;We hope you'll stay awhile.&lt;/p&gt;
+
+&lt;p&gt;And, by the way, whitespace
+
+			doesn't
+						matter
+				&lt;/p&gt;
+
+		&lt;p&gt;And that includes indentation&lt;/p&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+					</section>
+
+
+
+
+
+
+				</section>
+
+ 				<section>
+
+ 					<section>
+
+						<h2>CSS</h2>
+						<img src="images/shirts.jpg" style="height: 300px; padding: 20px; border: 1px solid white;">
+
+					</section>
+
+ 					<section>
+ 					<h3>Decorating the skeleton</h3>
+
+<pre><code data-trim class="css">
+
+body {
+  color: red;
+  background-color: black;
+}
+
+
+</code></pre>
+
+					</section>
+
+ 					<section>
+ 					<h3>Styles can go in the document's head</h3>
+
+<pre><code data-trim class="css">
+
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+	&lt;title&gt;Bask in the magnificence of this page!&lt;/title&gt;
+
+	&lt;style&gt;
+
+	body {
+		color: red;
+		background-color: black;
+	}
+
+	&lt;/style&gt;
+
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;h1&gt;Welcome!&lt;/h1&gt;
+&lt;p&gt;We hope you'll stay awhile.&lt;/p&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;
+
+</code></pre>
+
+					</section>
+
+
+ 					<section>
+ 					<h3>And also their own file</h3>
+
+<pre><code data-trim class="css">
+
+&lt;head&gt;
+	&lt;title&gt;Bask in the magnificence of this page!&lt;/title&gt;
+	&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;mystyles.css&quot;&gt;
+&lt;/head&gt;
+
+</code></pre>
+
+					</section>					
+
+				</section>
+
+	<section>
+ 				<section>
+					<h2>JavaScript</h2>
+					<img src="images/brain.jpg" style="height: 400px; border: 0;">
+				</section>
+
+
+ 				<section>
+					<h2>A full programming language</h2>
+					<ul><li>Runs in all browsers</li>
+					<li>Allows interaction with the document</li>
+					<li>Java is to JavaScript as ham is to hamster</li>
+					</ul>
+					<img src="images/hamster.jpg" style="height: 300px;" class="border">
+				</section>
+
+ 				<section>
+					<h2>Like CSS, JS can go directly in the HTML document</h2>
+						<pre><code data-trim class="javascript">
+&lt;head&gt;
+&lt;script&gt;
+	
+for (var i = 1; i <= 6; i++) {
+	alert('Annoying you six times!');
+}	
+
+&lt;/script&gt;
+&lt;/head&gt;
+						</code></pre>
+				</section>
+
+				<section>
+
+
+
+					<h2>But also like CSS, a separate file is preferred</h2>
+						<pre><code data-trim >
+&lt;head&gt;
+&lt;title&gt;My OK Page&lt;/title&gt;
+&lt;script src=&quot;/my_fancy_scripts.js&quot;&gt;&lt;/script&gt;
+&lt;/head&gt;
+						</code></pre>
+				</section>
+
+
+</section>
+
+
+				<section>
+					<h2>What about jQuery</h2>
+					<ul><li>Super popular library</li>
+						<li>It IS JavaScript</li>
+						<li>Makes some things easier</li>
+						<li>Helps clean up browser differences</li>
+						<li>Subject for another session...</li>
+					</ul>
+						
+				</section>
+
+
+				<section>
+					<h2>What about Bootstrap?</h2>
+					<ul><li>A CSS framework and more</li>
+						<li>Originally a project at Twitter</li>
+						<li>A bunch of CSS and JavaScript files</li>
+						<li>Get a site together quickly by linking in the bootstrap CSS and JavaScript files</li>
+						<li>Subject for another session...</li>
+					</ul>
+						
+				</section>
+
+
+				<section>
+					<h2>Tools</h2>
+					<ul><li>Google Chrome and Dev Tools</li>
+					<li>Sublime Text or any text editor of choice</li>
+					<li>Github: A place to host a simple website for free: <a href="https://pages.github.com/">https://pages.github.com/</a></li>
+					</ul>
+				</section>
+
+				
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.js"></script>
+
+		<script>
+
+			// Full list of configuration options available at:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+
+				transition: 'convex', // none/fade/slide/convex/concave/zoom
+
+				// Optional reveal.js plugins
+				dependencies: [
+					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/highlight/highlight.js', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/zoom-js/zoom.js', async: true },
+					{ src: 'plugin/notes/notes.js', async: true }
+				]
+			});
+
+		</script>
+
+	</body>
+</html>
